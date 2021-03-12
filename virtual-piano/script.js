@@ -18,8 +18,6 @@ keys.forEach(key => {
 
     key.addEventListener('mouseout', () => removeActiveClass(key))
     // add mouseover to remove styles when we are not on klavier
-   
-
 });
 
 
@@ -37,7 +35,6 @@ document.addEventListener('keydown', e => {
     if (whiteKeyIndex > - 1) {
         playNote(whiteKeys[whiteKeyIndex]); 
         // обращаемся соответствующую индексу среди коллекции .piano-key клавишу (див) и вызываем на ней функцию playNote
-         
     } else if (blackKeyIndex > - 1) {
         playNote(blackKeys[blackKeyIndex]);
     }
@@ -107,8 +104,29 @@ function playNote(key) {
 
     noteAudio.play();
 
+    // keys.addEventListener('mouseover', playNote(key));
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // button toggle Notes/Letters
 const notesButton = document.querySelector('.btn-notes');
