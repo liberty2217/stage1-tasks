@@ -136,3 +136,16 @@ function toggleToNotes() {
         key.classList.add('piano-key-letter');
     })
 }
+
+// fullscreen toggler
+let fullscreenBtn = document.querySelector('.fullscreen');
+fullscreenBtn.addEventListener('click', toggleScreen);
+
+function toggleScreen() {
+    if (document.fullscreenElement === null) {
+        document.documentElement.requestFullscreen();
+
+    } else {
+        document.exitFullscreen();
+    }
+}

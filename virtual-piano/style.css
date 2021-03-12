@@ -40,6 +40,9 @@ body {
 	max-width: 1140px;
 	margin: 0 auto;
 }
+audio {
+	display: none;
+}
 .btn-container {
 	display: flex;
 	justify-content: space-between;
