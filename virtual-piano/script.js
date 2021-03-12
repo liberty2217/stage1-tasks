@@ -9,22 +9,23 @@ const blackKeys = document.querySelectorAll('.piano-key.sharp')
 
 
 keys.forEach(key => {
-    key.addEventListener('click', () => playNote(key));
+
+    key.addEventListener('mousedown', () => playNote(key));
+    //playing sound and add active class on "click" of mousedown
     key.addEventListener('mouseup', () => removeActiveClass(key));
-    key.addEventListener('mousedown', () => addActiveClass(key))
+    //removing active effect on mouseup
+    
+
+    key.addEventListener('mouseout', () => removeActiveClass(key))
+    // add mouseover to remove styles when we are not on klavier
    
+
 });
-
-
-
-
-
 
 
 
 //keyboard - add music on pressed key. Notice that we've added it to the document (not to key as above)
 document.addEventListener('keydown', e => {
-
   
     const key = e.code;
     //e.code allows us to identify pressed button independently from keyboard layout and turned Caps Lock since all the pressed keys are always in English lanuage
@@ -34,17 +35,11 @@ document.addEventListener('keydown', e => {
 
     
     if (whiteKeyIndex > - 1) {
-        playNote(whiteKeys[whiteKeyIndex]); // обращаемся соответствующую индексу среди коллекции .piano-key клавишу (див) и вызываем на ней функцию playNote
-        whiteKeys[whiteKeyIndex].classList.add('piano-key-active');
-        whiteKeys[whiteKeyIndex].classList.add('piano-key-active-mouse'); //add hover effect on text color when pressed
-        whiteKeys[whiteKeyIndex].classList.add('piano-key-active-pseudo');//add hover effect on text color when pressed
-        //if true - firstly: play sound and, secondly, add "pressedEffect"
-        
+        playNote(whiteKeys[whiteKeyIndex]); 
+        // обращаемся соответствующую индексу среди коллекции .piano-key клавишу (див) и вызываем на ней функцию playNote
+         
     } else if (blackKeyIndex > - 1) {
         playNote(blackKeys[blackKeyIndex]);
-        blackKeys[blackKeyIndex].classList.add('piano-key-active');
-        blackKeys[blackKeyIndex].classList.add('piano-key-active-mouse'); //add hover effect on text color when pressed
-        blackKeys[blackKeyIndex].classList.add('piano-key-active-pseudo');//add hover effect on text color when pressed
     }
 })
 
@@ -71,35 +66,73 @@ document.addEventListener('keyup', e => {
 })
 
 
-//mouse - hover effect on letter, not scale
 function removeActiveClass(key) { 
-    key.classList.remove('piano-key-active-mouse');  //remove hover effect on text color when pressed
-    key.classList.remove('piano-key-active-pseudo'); //remove hover effect on text color when pressed
 
-    key.classList.remove('piano-key-active'); //remove scale effect when pressed klavier
+    //remove active css klavier styles
+    key.classList.remove('piano-key-active-mouse'); 
+    key.classList.remove('piano-key-active-pseudo');
+    key.classList.remove('piano-key-active'); 
+
 }
 
-function addActiveClass(key) {
 
-    console.log(key);
+// function addHoverPlaySound(key) {
+//     keys.forEach((e) => {
+//         e.addEventListener('mouseover', () => playNote(key))
+//     });
+// }
+
+// function removeHoverPlaySound(key) {
+//     keys.forEach((e) => {
+//         e.removeEventListener('mouseover', () => playNote(key));
+//     })
+// }
 
 
-    key.classList.add('piano-key-active'); //add scale effect when pressed klavier
-    
-    key.classList.add('piano-key-active-mouse'); //add hover effect on text color when pressed
-    key.classList.add('piano-key-active-pseudo');//add hover effect on text color when pressed
-}
 
-//playing audio on mouseclick
 function playNote(key) {
+
+    
+    
+    // add active css klavier styles
+    key.classList.add('piano-key-active'); 
+    key.classList.add('piano-key-active-mouse');
+    key.classList.add('piano-key-active-pseudo');
+   
     const noteAudio = document.getElementById(key.dataset.note);
     // мы обращаемся к конкретной нажатой сейчас клавише (диву) и далее обращаемся к его атрибуту data-note с помощью key.dataset.note. Наше значение атрибута data-note будет корреспондировать атрибуту id в тегах audio (они одинаковы). Мы работаем соответственно в этом коде мы возвращаем конркретный audio
 
     noteAudio.currentTime = 0;
-    // позволяет нажимать несколько раз на клавишу, чтобы звук проигрывался, не дожидаясь окончания предыдущего нажатия
-    noteAudio.play();
     
+
+    noteAudio.play();
+
+
 }
 
+// button toggle Notes/Letters
+const notesButton = document.querySelector('.btn-notes');
+const lettersButton = document.querySelector('.btn-letters');
+
+notesButton.addEventListener('click', toggleToLetters);
+lettersButton.addEventListener('click', toggleToNotes);
+
+function toggleToLetters() {
+    //changing button style
+    lettersButton.classList.remove('btn-active');
+    notesButton.classList.add('btn-active');
     
-    
+    //changing class that applies to the pseudo elements (this case we need "content: attr(data-letter" property to apply)
+    keys.forEach(key => {
+        key.classList.remove('piano-key-letter');
+    })
+}
+function toggleToNotes() {
+    //changing button style
+    notesButton.classList.remove('btn-active');
+    lettersButton.classList.add('btn-active');
+
+    keys.forEach(key => {
+        key.classList.add('piano-key-letter');
+    })
+}
